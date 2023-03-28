@@ -18,3 +18,12 @@ header {
     width: 15vw;
     background-color: #323d4f;
 }
+
+ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+li {
+    padding-bottom: 5%;
+}
