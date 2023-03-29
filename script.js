@@ -20,16 +20,23 @@ let currentTemp = document.querySelector("#current-temp")
 let currentWind = document.querySelector("#current-wind")
 let currentHumidity = document.querySelector("#current-humidity")
 let currentIcon = document.querySelector("#current-icon")
-let hr = document.querySelector("hr")
+let historyArea = document.querySelector("#history-area")
+let cardContain = document.querySelector("#card-container")
 
 
-// event listener for search button
-document.querySelector("#search").addEventListener("click", function () {
+
+// main use function to get weather
+function runFetch(event) {
 
     // conditional to stop process if cityname is blank
     if (city.value === "") {
         return
     } else {
+        if (event.target.id == "search") {
+            params.q = city.value
+        } else {
+            params.q = event.target.textContent
+        }
 
         // get the city name from the text input and build out the api url with correct params
         params.q = city.value
@@ -98,7 +105,6 @@ document.querySelector("#search").addEventListener("click", function () {
                     date.setAttribute("class", "card-title")
 
                     //append the elements
-                    let cardContain = document.querySelector("#card-container")
                     cardContain.appendChild(div1)
                     div1.appendChild(div2)
                     div2.appendChild(date)
@@ -129,10 +135,11 @@ document.querySelector("#search").addEventListener("click", function () {
 
                 //create and append history button and add class attributes
                 searchHistory = document.createElement("button")
-                hr.appendChild(searchHistory)
+                historyArea.appendChild(searchHistory)
                 searchHistory.textContent = cityname
-                searchHistory.setAttribute("class", "history-button btn btn-secondary col-12 mt-4")
+                searchHistory.setAttribute("class", "history-button btn btn-secondary col-12 mt-3")
 
+                searchHistory.addEventListener("click", runFetch)
                 // Add event Listener that 
 
                 //TODO: Click on history runs the new search
@@ -147,5 +154,13 @@ document.querySelector("#search").addEventListener("click", function () {
 
 
     }
-})
+}
+
+// event listener for search button
+
+
+
+document.querySelector("#search").addEventListener("click", runFetch)
+
+
 
