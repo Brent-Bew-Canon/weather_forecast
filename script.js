@@ -15,7 +15,10 @@ let humidity = []
 icons = []
 
 let city = document.querySelector("#city")
-let responseData = 0
+let currentTemp = document.querySelector("#current-temp")
+let currentWind = document.querySelector("#current-wind")
+let currentHumidity = document.querySelector("#current-humidity")
+
 
 // event listener for search button
 document.querySelector("#search").addEventListener("click", function () {
@@ -28,7 +31,6 @@ document.querySelector("#search").addEventListener("click", function () {
         // get the city name from the text input and build out the api url with correct params
         params.q = city.value
         weatherUrl = weatherApi + "q=" + params.q + "&units=imperial&appid=" + params.apiKey
-        console.log(weatherUrl)
 
         // Perform fetch through the weather api
         fetch(weatherUrl)
@@ -36,8 +38,7 @@ document.querySelector("#search").addEventListener("click", function () {
                 return response.json()
             })
             .then(function (data) {
-                responseData = data
-                console.log(responseData)
+                console.log(data)
 
                 let relDates = []
                 for (let i = 0; i < data.list.length; i++) {
@@ -61,8 +62,6 @@ document.querySelector("#search").addEventListener("click", function () {
                 for (let i = 0; i < relDates.length; i++) {
                     let time = dayjs.unix(relDates[i].dt)
                     let parsed = dayjs(time).format("h a")
-                    let dayTime = dayjs(time).format("M/DD/YYYY [at ] h a")
-
 
                     //compare the time to the standard set above and add the data to the forecast array and fiveDays array if it matches up
                     if (parsed == dayOneHour) {
@@ -120,6 +119,13 @@ document.querySelector("#search").addEventListener("click", function () {
                     console.log(iconId);
                     iconImg.setAttribute("src", "https://openweathermap.org/img/wn/" + iconId + "@2x.png")
 
+                    currentTemp.textContent = "Temp: " + allDates[0].main.temp + "°"
+                    currentWind.textContent = "Wind: " + allDates[0].wind.speed + " MPH"
+                    currentHumidity.textContent = "Humidity: " + allDates[0].main.humidity + "%"
+
+                    // TODO: input the current icon into the img tag
+
+                    // TODO: Save previous search history to screen and local storage
 
                 }
             })
