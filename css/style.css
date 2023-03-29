@@ -8,12 +8,6 @@ header {
     background: linear-gradient(90deg, rgba(70, 90, 184, 1) 0%, rgba(38, 19, 96, 1) 100%);
 }
 
-/* main {
-    display: flex;
-    flex-direction: row;
-    display: inline-flex;
-} */
-
 .card {
     width: 15vw;
     background-color: #323d4f;
@@ -26,4 +20,9 @@ ul {
 
 li {
     padding-bottom: 5%;
+}
+
+.todayHeading {
+    display: inline-flex;
+    align-items: center;
 }

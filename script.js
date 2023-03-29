@@ -18,6 +18,7 @@ let city = document.querySelector("#city")
 let currentTemp = document.querySelector("#current-temp")
 let currentWind = document.querySelector("#current-wind")
 let currentHumidity = document.querySelector("#current-humidity")
+let currentIcon = document.querySelector("#current-icon")
 
 
 // event listener for search button
@@ -40,6 +41,7 @@ document.querySelector("#search").addEventListener("click", function () {
             .then(function (data) {
                 console.log(data)
 
+                // this loop compares each data point against the first data point based on the day to get a list of all the 5 days beyond today
                 let relDates = []
                 for (let i = 0; i < data.list.length; i++) {
                     if (dayjs.unix(data.list[i].dt).format("M/DD") > dayjs.unix(data.list[0].dt).format("M/DD")) {
@@ -51,19 +53,20 @@ document.querySelector("#search").addEventListener("click", function () {
                     allDates[i] = data.list[i]
                 }
 
-
+                //TODO: explain this paragraph
                 let dayOne = dayjs.unix(relDates[0].dt)
                 dayOneHour = dayjs(dayOne).format("h a")
-                console.log(dayOneHour + "see herer")
                 forecast[0] = dayjs(dayOne).format("M/DD/YYYY")
                 console.log(forecast[0])
                 console.log(relDates)
+
+                //this loop goes through each of the 5 day forecast and formats it by the hour to determine which data points to grab so that they are all consistent by hour
                 let count = 0
                 for (let i = 0; i < relDates.length; i++) {
                     let time = dayjs.unix(relDates[i].dt)
                     let parsed = dayjs(time).format("h a")
 
-                    //compare the time to the standard set above and add the data to the forecast array and fiveDays array if it matches up
+                    //compares the hour against the first day/hour combo set above as dayOneHour and adds the data to the arrays if it matches up
                     if (parsed == dayOneHour) {
                         console.log("This is a good day" + dayjs(time).format("M/DD/YYYY"))
                         temps.push(relDates[i].main.temp)
@@ -79,7 +82,7 @@ document.querySelector("#search").addEventListener("click", function () {
                 console.log(forecast)
 
 
-                //loop to create card elements with weather data
+                //loop to create elements and fill them with weather data
                 for (let i = 0; i < 5; i++) {
 
                     //create elements
@@ -119,13 +122,17 @@ document.querySelector("#search").addEventListener("click", function () {
                     console.log(iconId);
                     iconImg.setAttribute("src", "https://openweathermap.org/img/wn/" + iconId + "@2x.png")
 
+
                     currentTemp.textContent = "Temp: " + allDates[0].main.temp + "°"
                     currentWind.textContent = "Wind: " + allDates[0].wind.speed + " MPH"
                     currentHumidity.textContent = "Humidity: " + allDates[0].main.humidity + "%"
+                    currentIcon.setAttribute("src", "https://openweathermap.org/img/wn/" + allDates[0].weather[0].icon + "@2x.png")
 
                     // TODO: input the current icon into the img tag
 
                     // TODO: Save previous search history to screen and local storage
+
+                    //TODO: Add functionality if city is not found
 
                 }
             })
