@@ -8,7 +8,12 @@ let params = {
     apiKey: "760dc2617eb1a39f1c3c50666743a368"
 }
 let forecast = []
-let days = []
+let allDates = []
+let temps = []
+let windList = []
+let humidity = []
+icons = []
+
 let city = document.querySelector("#city")
 let responseData = 0
 
@@ -33,29 +38,46 @@ document.querySelector("#search").addEventListener("click", function () {
             .then(function (data) {
                 responseData = data
                 console.log(responseData)
-                console.log(responseData.list[0].dt)
-                //sets time of day for the five day forecast based on time of query
-                let dayOne = dayjs.unix(data.list[0].dt)
-                dayOneHour = dayjs(dayOne).format("h a")
-                forecast[0] = dayjs(dayOne).format("M/DD/YYYY")
-                days[0] = data.list[0]
-                let count = 0
 
-                //loop through all the data to find the correct time each day
+                let relDates = []
                 for (let i = 0; i < data.list.length; i++) {
-                    let time = dayjs.unix(data.list[i].dt)
-                    let parsed = dayjs(time).format("h a")
+                    if (dayjs.unix(data.list[i].dt).format("M/DD") > dayjs.unix(data.list[0].dt).format("M/DD")) {
+                        console.log("greater day" + dayjs.unix(data.list[i].dt).format("M/DD"))
+                        relDates.push(data.list[i])
+                    } else {
+                        console.log("not greater" + dayjs.unix(data.list[i].dt).format("M/DD"))
+                    }
+                    allDates[i] = data.list[i]
+                }
 
-                    //compare the time to the standard set above and add the data to the forecast array and days array if it matches up
+
+                let dayOne = dayjs.unix(relDates[0].dt)
+                dayOneHour = dayjs(dayOne).format("h a")
+                console.log(dayOneHour + "see herer")
+                forecast[0] = dayjs(dayOne).format("M/DD/YYYY")
+                console.log(forecast[0])
+                console.log(relDates)
+                let count = 0
+                for (let i = 0; i < relDates.length; i++) {
+                    let time = dayjs.unix(relDates[i].dt)
+                    let parsed = dayjs(time).format("h a")
+                    let dayTime = dayjs(time).format("M/DD/YYYY [at ] h a")
+
+
+                    //compare the time to the standard set above and add the data to the forecast array and fiveDays array if it matches up
                     if (parsed == dayOneHour) {
-                        // console.log(dayjs(time).format("M/DD/YYYY"))
-                        forecast[count] = data.list[i].dt
-                        days[count] = data.list[i]
+                        console.log("This is a good day" + dayjs(time).format("M/DD/YYYY"))
+                        temps.push(relDates[i].main.temp)
+                        windList.push(relDates[i].wind.speed)
+                        console.log(windList[count])
+                        humidity.push(relDates[i].main.humidity)
+                        icons.push(relDates[i].weather[0].icon)
+                        forecast[count] = dayjs.unix(relDates[i].dt).format("M/DD/YYYY")
                         count++
                     }
                 }
-                // console.log(forecast)
-                console.log(typeof (days))
+                console.log(relDates)
+                console.log(forecast)
 
 
                 //loop to create card elements with weather data
@@ -90,17 +112,18 @@ document.querySelector("#search").addEventListener("click", function () {
                     tempList.appendChild(humid)
 
                     //fill in the elements with the values
-                    date.textContent = dayjs.unix(forecast[i]).format("M/DD/YYYY [at ] h a")
-                    temp.textContent = "Temp: " + responseData.list[i].main.temp + "°F"
-                    wind.textContent = "Wind: " + responseData.list[i].wind.speed + " MPH"
-                    humid.textContent = "Humidity: " + responseData.list[i].main.humidity + "%"
-                    let iconId = responseData.list[i].weather[0].icon
+                    date.textContent = forecast[i]
+                    temp.textContent = "Temp: " + temps[i] + "°F"
+                    wind.textContent = "Wind: " + windList[i] + " MPH"
+                    humid.textContent = "Humidity: " + humidity[i] + "%"
+                    let iconId = icons[i]
                     console.log(iconId);
                     iconImg.setAttribute("src", "https://openweathermap.org/img/wn/" + iconId + "@2x.png")
 
 
                 }
             })
+
         document.querySelector("h2").textContent = city.value.toUpperCase()
     }
 })
