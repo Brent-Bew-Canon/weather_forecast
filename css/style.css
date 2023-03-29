@@ -26,3 +26,14 @@ li {
     display: inline-flex;
     align-items: center;
 }
+
+#card-container {
+    display: inline-flex;
+    flex-direction: row;
+}
+
+@media (max-width: 850px) {
+    #card-container {
+        flex-direction: column;
+    }
+}

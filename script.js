@@ -142,7 +142,7 @@ function runFetch(event) {
             searchHistory = document.createElement("button")
             historyArea.appendChild(searchHistory)
             searchHistory.textContent = cityname
-            searchHistory.setAttribute("class", "history-button btn btn-secondary col-12 mt-3")
+            searchHistory.setAttribute("class", "history-button btn btn-secondary col-12 mt-2 mb-2")
 
             // Add event Listener to new history buttons 
             searchHistory.addEventListener("click", runFetch)
