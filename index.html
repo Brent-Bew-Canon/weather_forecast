@@ -24,19 +24,20 @@
                     <input type="text" class="form-control form-control-lg" id="city" placeholder="San Fran....">
                 </div>
                 <div id="button-area"></div>
-                <button type="button" class="btn btn-primary" id="search">Search</button>
+                <button type="button" class="btn btn-primary col-12" id="search">Search</button>
+                <hr>
             </div>
 
             <div id="weather-area" class="col-lg-9">
-                <div class="border-2 border border-black p-2">
+                <div class="border-2 border border-black p-2" id="weatherToday">
                     <div class="todayHeading">
-                        <h2>City (1/1/2022) *Icon</h2>
+                        <h2></h2>
                         <img id="current-icon" src="" alt="">
                     </div>
                     <ul>
-                        <li id="current-temp"></li>
-                        <li id="current-wind"></li>
-                        <li id="current-humidity"></li>
+                        <li id="current-temp" class="fs-5 fw-semibold pb-3 pt-3"></li>
+                        <li id="current-wind" class="fs-5 fw-semibold pb-3 pt-2"></li>
+                        <li id="current-humidity" class="fs-5 fw-semibold pb-3 pt-3"></li>
                     </ul>
                 </div>
                 <div class="mt-3">
