@@ -1,7 +1,7 @@
 # Weather Forecast
 
 ## Description
-A weather app that gives you current weather conditions as well as a 5 day forecast for any given city in the US.
+A weather app that gives you current weather conditions as well as a 5 day forecast for any given city in the US. It uses the OpenWeather api to pull weather data for a given city.
 
 ## Installation
 N/A
