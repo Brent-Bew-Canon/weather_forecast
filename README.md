@@ -19,4 +19,4 @@ https://brent-bew-canon.github.io/weather_forecast/
 
 
 ## Screenshot
-![Weather App Screenshot](assets/weather screenshot.png)
+![Weather App Screenshot](assets/weather%20screenshot.png)
